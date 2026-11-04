@@ -14,6 +14,8 @@ import gifPanoramax from './assets/geo-panoramax.gif';
 import gifSwipe from './assets/geo-compare-swipe.gif';
 import pampa1 from './assets/pampa-1.jpg';
 import pampa2 from './assets/pampa-2.jpg';
+import captureVeille from './assets/capture-veille.png';
+import captureJusant from './assets/capture-jusant.png';
 import tempsEnsemble from './assets/temps-ensemble.png';
 import tempsTop from './assets/temps-top-projets.png';
 import tempsComparatif from './assets/temps-comparatif.png';
@@ -627,7 +629,7 @@ const CasGeo: Page = () => (
 /** Étape d'un schéma de routine. `modele` : l'étape tenue par le modèle local (mise en avant). */
 const Bloc = ({ children, modele }: { children: ReactNode; modele?: boolean }) => (
   <div style={{
-    ...card, flex: 1, height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
+    ...card, flex: 1, height: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
     fontFamily: UI, fontSize: 22, lineHeight: 1.25, padding: '0 10px',
     background: modele ? 'var(--osd-accent)' : '#FFFFFF', color: modele ? '#FFFFFF' : 'var(--osd-text)', fontWeight: modele ? 700 : 400,
   }}>{children}</div>
@@ -638,51 +640,75 @@ const Schema = ({ titre, legende, children }: { titre: string; legende: string; 
   <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
     <Eyebrow color={GRIS_CLAIR}>{titre}</Eyebrow>
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>{children}</div>
-    <div style={{ fontFamily: UI, fontSize: 22, color: GRIS_CLAIR }}>{legende}</div>
+    <div style={{ fontFamily: UI, fontSize: 26, color: GRIS_CLAIR }}>{legende}</div>
   </div>
 );
 
-const Petite = () => <div style={{ fontSize: 30, color: CYAN, fontFamily: UI }}>→</div>;
+const Petite = () => <div style={{ fontSize: 36, color: CYAN, fontFamily: UI }}>→</div>;
 
-const CasRoutines: Page = () => (
+/** Page d'une routine sur le modèle de la page 6 : 3 rubriques à gauche, son schéma à droite. */
+const Routine = ({ titre, fait, role, sans, schema, capture }: { titre: string; fait: string; role: string; sans: string; schema: ReactNode; capture: string }) => (
   <div style={content}>
-    <Header eyebrow="TYPE 3 · ROUTINES LOCALES" title="Veille et Jusant : des modèles locaux, tenus en laisse" />
+    <Header eyebrow="TYPE 3 · ROUTINES LOCALES" title={titre} />
     <div style={{ flex: 1, display: 'flex', gap: 60, marginTop: 50, minHeight: 0 }}>
       <div style={{ width: 760, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 36 }}>
-        <Field label="CE QU'ON A FAIT">Veille SIT, en production depuis le 1er octobre. Jusant, en test avec un collègue</Field>
-        <Field label="RÔLE DE L'IA">mistral-small note la veille, il ne filtre jamais. gemma recopie le point du soir</Field>
-        <Field label="MAINTENABLE SANS">Python collecte et rédige. Au début, gemma se trompait de jour</Field>
+        <Field label="CE QU'ON A FAIT">{fait}</Field>
+        <Field label="RÔLE DE L'IA">{role}</Field>
+        <Field label="MAINTENABLE SANS">{sans}</Field>
         <div style={{ display: 'flex', gap: 16 }}>
           <Badge color="#03728B" bg="#E6F9FD">IA générative locale</Badge>
           <Badge color={VERT} bg="#E8F5EC">Rien ne sort</Badge>
         </div>
       </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 56 }}>
-        <Schema titre="VEILLE SIT" legende="Tout tourne sur le serveur de Marennes">
-          <Bloc>Flux RSS</Bloc>
-          <Petite />
-          <Bloc>Python collecte</Bloc>
-          <Petite />
-          <Bloc modele>mistral-small note</Bloc>
-          <Petite />
-          <Bloc>Salon Discord</Bloc>
-        </Schema>
-        <Steps>
-          <Step>
-            <Schema titre="JUSANT, LE POINT DU SOIR" legende="Le modèle n'a jamais le dernier mot">
-              <Bloc>Notion : tâches, temps</Bloc>
-              <Petite />
-              <Bloc>Python rédige</Bloc>
-              <Petite />
-              <Bloc modele>gemma recopie</Bloc>
-              <Petite />
-              <Bloc>Point du soir</Bloc>
-            </Schema>
-          </Step>
-        </Steps>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 36 }}>
+        {schema}
+        {/* capture du message reçu dans Discord */}
+        <img src={capture} style={{ width: '100%', borderRadius: 'var(--osd-radius)', border: `2px solid ${BORD}` }} />
       </div>
     </div>
   </div>
+);
+
+const CasVeille: Page = () => (
+  <Routine
+    titre="Veille SIT : un modèle local qui note, sans filtrer"
+    fait="Une veille quotidienne, en production depuis le 1er octobre"
+    role="mistral-small note chaque article, il ne jette jamais rien"
+    sans="Python collecte et publie : sans modèle, on perd la note, pas la veille"
+    capture={captureVeille}
+    schema={
+      <Schema titre="FONCTIONNEMENT" legende="Tout tourne sur le serveur de Marennes">
+        <Bloc>Flux RSS</Bloc>
+        <Petite />
+        <Bloc>Python collecte</Bloc>
+        <Petite />
+        <Bloc modele>mistral-small note</Bloc>
+        <Petite />
+        <Bloc>Salon Discord</Bloc>
+      </Schema>
+    }
+  />
+);
+
+const CasJusant: Page = () => (
+  <Routine
+    titre="Jusant : le point du soir, rédigé par Python"
+    fait="Chaque soir, prévu, fait et reports. En test avec un collègue"
+    role="gemma ne fait que recopier ce que Python a rédigé"
+    sans="Au début, gemma inventait dates et statuts : Python rédige tout"
+    capture={captureJusant}
+    schema={
+      <Schema titre="FONCTIONNEMENT" legende="Le modèle n'a jamais le dernier mot">
+        <Bloc>Notion : tâches, temps</Bloc>
+        <Petite />
+        <Bloc>Python rédige</Bloc>
+        <Petite />
+        <Bloc modele>gemma recopie</Bloc>
+        <Petite />
+        <Bloc>Point du soir</Bloc>
+      </Schema>
+    }
+  />
 );
 
 // ---------------------------------------------------------------- 9. Type 4 : rédaction et admin
@@ -812,7 +838,7 @@ export const meta: SlideMeta = {
   createdAt: '2026-10-20T14:26:24.548Z',
 };
 
-export default [Couverture, Declic, Cas1, Ligne, Carte, CasGeo, Cas2, CasRoutines, CasAdmin, Lucidite, Organisation, Questions, GtIa, Merci] satisfies Page[];
+export default [Couverture, Declic, Cas1, Ligne, Carte, CasGeo, Cas2, CasVeille, CasJusant, CasAdmin, Lucidite, Organisation, Questions, GtIa, Merci] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
   `En préambule : « Ce n'est pas un cours sur l'IA générative. Tout le monde n'est pas à l'aise avec tous les concepts, alors je vais vulgariser. Si je dis un gros mot, n'hésitez pas à m'interrompre. »
@@ -838,9 +864,12 @@ Python récupère les photos qui regardent chaque point, l'IA propose des cadres
 Chiffres : 271 photos relues, 9 plants connus sur 10 retrouvés. Les fausses alertes : roseaux, palmiers, haies.
 Prochaine étape : en attente avant de généraliser tant que les images Panoramax ne sont pas mieux calées géographiquement.
 Mais on a les outils et on peut bosser sans IAGen`,
-  `Deux routines sur notre serveur de Marennes, avec des modèles locaux : rien ne sort.
-Veille : Python collecte les articles, le modèle les note, il ne jette rien. Résultat sur Discord.
-Jusant : le point du soir. Leçon : gemma se trompait de jour et inventait des statuts. Depuis, Python rédige et le modèle ne fait que recopier.`,
+  `Première routine, sur notre serveur de Marennes, avec un modèle local : rien ne sort.
+Python collecte les articles des flux RSS, mistral-small leur donne une note, il ne jette rien. Le résultat arrive dans un salon Discord.
+Si le modèle tombe, on perd la note, pas la veille.`,
+  `Deuxième routine : Jusant, le point du soir.
+Leçon : au début, gemma rédigeait, il se trompait de jour et inventait des statuts. Depuis, Python rédige et le modèle ne fait que recopier.
+C'est la règle de toutes nos routines : le modèle n'a jamais le dernier mot.`,
   `Le cas le plus « administratif » : le suivi du temps passé au SIT.
 Un export Notion devient un rapport HTML, un seul fichier, sans serveur.
 Ici on assume le cloud : données internes, pas nominatives au sens sensible. Et un humain relit les chiffres.
