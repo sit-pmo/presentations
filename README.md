@@ -6,6 +6,7 @@ une page = un composant React, rendu en 1920 × 1080.
 | Deck | Événement |
 | --- | --- |
 | `slides/geo17-ia/` | Rencontres Géo17, 13 novembre 2026 — usages de l'IA au SIT |
+| `slides/gt-drone/` | GT Drone n°1 CCIO, 13 octobre 2026 — réglementation & pilotage |
 
 ## Lancer
 
