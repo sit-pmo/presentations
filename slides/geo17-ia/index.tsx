@@ -796,14 +796,61 @@ const Organisation: Page = () => (
   </div>
 );
 
+// ---------------------------------------------------------------- 12 bis. Au quotidien : terminal + Claude Code, démo live
+/** Ligne du terminal factice : `invite` en cyan (commande tapée), sinon sortie grisée. */
+const Ligne_ = ({ invite, children }: { invite?: string; children: ReactNode }) => (
+  <div style={{ color: invite ? '#FFFFFF' : '#9FB3BB' }}>
+    {invite && <span style={{ color: CYAN }}>{invite} </span>}{children}
+  </div>
+);
+
+const Quotidien: Page = () => (
+  <div style={content}>
+    <Header eyebrow="AU QUOTIDIEN" title="Concrètement : un terminal et un assistant qui connaît le service" />
+    <div style={{ flex: 1, display: 'flex', gap: 70, marginTop: 50, minHeight: 0 }}>
+      <div style={{ width: 760, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 34 }}>
+        <Field label="1. JE DÉCRIS">En français, dans le terminal, comme à un collègue</Field>
+        <Field label="2. IL LIT LE CONTEXTE">Le dépôt commun : service, stack, règles sur les données</Field>
+        <Field label="3. IL PROPOSE, J'ESSAIE">Il écrit le code ou le texte, je teste dans le vrai outil</Field>
+        <Field label="4. JE VALIDE">Rien n'est publié ni écrit en base sans moi</Field>
+      </div>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28 }}>
+        {/* ponytail: terminal factice en HTML, sert aussi de plan B si pas de réseau pour la démo */}
+        <div style={{ background: DEEP_800, borderRadius: 'var(--osd-radius)', padding: '26px 34px', fontFamily: MONO, fontSize: 23, lineHeight: 1.6 }}>
+          <div style={{ display: 'flex', gap: 10, marginBottom: 18 }}>
+            {[ROUGE, '#FFDE12', SAGE].map((c) => <span key={c} style={{ width: 16, height: 16, borderRadius: 8, background: c }} />)}
+          </div>
+          <Ligne_ invite="PS>">claude</Ligne_>
+          {/* échange réel : issue #29 du module DFI de VCA → PR #30 (04/11/2026) */}
+          <Ligne_ invite="›">traite l'issue #29 du module DFI</Ligne_>
+          <Ligne_>● lit les règles de contribution des modules GEO</Ligne_>
+          <Ligne_>● crée une branche, modifie le module</Ligne_>
+          <Ligne_ invite="›">testé dans GEO 4.3.2, ça marche</Ligne_>
+          <Ligne_ invite="›">garde aussi les contours sur la carte</Ligne_>
+          <Ligne_>● ajuste, je reteste</Ligne_>
+          <Ligne_>✓ PR #30 ouverte chez Vienne Condrieu</Ligne_>
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+          <Badge color="#03728B" bg="#E6F9FD">Terminal + Claude Code</Badge>
+          <Badge color="#03728B" bg="#E6F9FD">Skills maison</Badge>
+          <Badge color={VERT} bg="#E8F5EC">Git / GitHub</Badge>
+          <Badge color={VERT} bg="#E8F5EC">Notion</Badge>
+          <Badge color={VERT} bg="#E8F5EC">Ollama local</Badge>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 // ---------------------------------------------------------------- 12. Questions ouvertes
 const Questions: Page = () => (
   <div style={{ ...content, justifyContent: 'center' }}>
-    <Header eyebrow="QUESTIONS OUVERTES" title="Ce dont on n'est pas sûrs" />
+    <Header eyebrow="QUESTIONS OUVERTES" title="Ce qui nous pose question" />
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 50 }}>
       <Limite icon={<Chart />} sujet="Quels outils en 2027 ?">souverains, performants, ou un mélange des deux</Limite>
       <Limite icon={<Chart />} sujet="Où vit la mémoire ?">entre les outils, nos notes et le dépôt partagé</Limite>
       <Limite icon={<Chart />} sujet="L'IA dans notre base ?">en lecture seule, en liste blanche, encore en conception</Limite>
+      <Limite icon={<Warn />} sujet="Quel coût environnemental ?">énergie et eau des centres de données mal connues, et le local consomme aussi</Limite>
     </div>
     <div style={{ marginTop: 30, background: DEEP_800, color: '#FFFFFF', borderRadius: 'var(--osd-radius)', padding: '34px 44px', fontSize: 36, fontStyle: 'italic', textAlign: 'center' }}>Une seule certitude : rester réversibles</div>
   </div>
@@ -838,7 +885,7 @@ export const meta: SlideMeta = {
   createdAt: '2026-10-20T14:26:24.548Z',
 };
 
-export default [Couverture, Declic, Cas1, Ligne, Carte, CasGeo, Cas2, CasVeille, CasJusant, CasAdmin, Lucidite, Organisation, Questions, GtIa, Merci] satisfies Page[];
+export default [Couverture, Declic, Cas1, Ligne, Carte, CasGeo, Cas2, CasVeille, CasJusant, CasAdmin, Lucidite, Organisation, Quotidien, Questions, GtIa, Merci] satisfies Page[];
 
 export const notes: (string | undefined)[] = [
   `En préambule : « Ce n'est pas un cours sur l'IA générative. Tout le monde n'est pas à l'aise avec tous les concepts, alors je vais vulgariser. Si je dis un gros mot, n'hésitez pas à m'interrompre. »
@@ -885,6 +932,16 @@ Transition : « Alors, pour ne pas se perdre, on commence à s'organiser. »`,
 - Pas d'API : pas de facture surprise, crédits hors forfait désactivés.
 - Routines : Python collecte et décide, le modèle classe ou reformule, un humain relit.
 Message : « Si demain on change d'outil, on garde notre contexte. C'est ça, augmenter sans dépendre. »`,
-  `« On n'est sûrs de rien. » Trois questions qu'on se pose encore, rapidement.
+  `Concrètement, comment je travaille : un terminal Windows (PowerShell) et Claude Code dedans.
+Je décris en français, il lit d'abord notre dépôt commun (service, stack, règles rouge / orange / vert), il propose, j'essaie dans le vrai outil, je valide.
+Exemple réel à l'écran : l'issue #29 du module de filiation des parcelles (DFI) de Vienne Condrieu. Retrouver la dernière filiation après une interrogation au clic.
+Claude lit d'abord nos règles de contribution, crée une branche, code. J'essaie dans GEO 4.3.2. Après essai, je lui demande de garder aussi les contours sur la carte. Il ajuste, je reteste, la PR #30 part chez le mainteneur, qui relit avant de fusionner.
+Les skills maison : des consignes écrites une fois, réutilisées (ex. Jusant, créer une tâche Notion).
+[EN SUSPENS, pas décidé] Démo en direct (3-4 min, seulement si le réseau tient) : « Donnez-moi 3 communes où vous travaillez. »
+Prompt (préparé dans un fichier texte, à copier-coller) : « Fais-moi une carte web en un seul fichier HTML avec les contours des communes X, Y, Z (API Géo, geo.api.gouv.fr). Au clic sur une commune, affiche la photo Panoramax la plus proche du centre (api.panoramax.xyz). Ouvre-la dans le navigateur. »
+Message : « Ça, je ne sais pas le coder seul. Données publiques, sans clé, un fichier qu'on garde : c'est réversible. »
+Plan B sans réseau : la carte générée en répétition, ouverte en local, et le terminal affiché sur la diapo.`,
+  `« On n'est sûrs de rien. » Quatre questions qu'on se pose encore, rapidement.
+Coût environnemental : les fournisseurs publient peu de chiffres fiables sur l'énergie et l'eau. Notre serveur GPU de Marennes consomme aussi. On ne sait pas encore mesurer notre propre empreinte : c'est une question ouverte, pas une excuse.
 Finir sur : « La seule chose dont on est sûrs, c'est qu'on veut pouvoir faire marche arrière. »`,
 ];
