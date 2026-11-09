@@ -431,6 +431,12 @@ const Etape3 = ({ children }: { children: ReactNode }) => (
 const Cas1: Page = () => (
   <div style={content}>
     <Header eyebrow="LE DÉCLIC" title="Panoramax × Plantnet — reconnaissance d'espèces végétales" />
+    {/* Visible dès l'ouverture : le problème et la solution. */}
+    <div style={{ display: 'flex', gap: 60, marginTop: 40 }}>
+      <div style={{ flex: 1 }}><Field label="PROBLÈME">Comment identifier des espèces sur des vues 360° ?</Field></div>
+      <div style={{ flex: 1 }}><Field label="SOLUTION">Plantnet (IA tierce) appliqué sur les images Panoramax</Field></div>
+    </div>
+    {/* Chaîne déroulée au clic, de l'emprise jusqu'à la mise en base. */}
     <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginTop: 40 }}>
       <Steps>
         <Noeud bout>Emprise de recherche</Noeud>
@@ -439,20 +445,20 @@ const Cas1: Page = () => (
         <Step><Etape3><Fleche /><Noeud bout>Mise en base de données</Noeud></Etape3></Step>
       </Steps>
     </div>
+    {/* Dernier clic : le résultat et la capture GEO ensemble. */}
     <Steps>
     <Step>
-    <div style={{ display: 'flex', gap: 60, marginTop: 40, minHeight: 0 }}>
+    <div style={{ display: 'flex', gap: 60, marginTop: 40, flex: 1, minHeight: 0 }}>
       <div style={{ width: 700, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 30 }}>
-        <Field label="PROBLÈME">Comment identifier des espèces sur des vues 360° ?</Field>
-        <Field label="SOLUTION">Plantnet (IA tierce) appliqué sur les images Panoramax</Field>
         <Field label="RÉSULTAT">Identifications exploitables, même si Plantnet disparaît</Field>
         <div style={{ display: 'flex', gap: 16 }}>
           <Badge color="#03728B" bg="#E6F9FD">IA tierce consommée</Badge>
           <Badge color={VERT} bg="#E8F5EC">Usage ponctuel</Badge>
         </div>
       </div>
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-        <img src={plantnetGeo} style={{ width: '100%', borderRadius: 'var(--osd-radius)', border: `2px solid ${BORD}` }} />
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 0 }}>
+        {/* ponytail: hauteur plafonnée pour tenir sous la chaîne dans les 1080 px */}
+        <img src={plantnetGeo} style={{ maxWidth: '100%', maxHeight: 430, borderRadius: 'var(--osd-radius)', border: `2px solid ${BORD}` }} />
       </div>
     </div>
     </Step>
@@ -769,13 +775,19 @@ const Lucidite: Page = () => (
   <div style={{ ...content, justifyContent: 'center' }}>
     <Header eyebrow="LIMITES" title="L'IA, ce n'est pas magique… et c'est normal" />
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 50 }}>
-      <Limite icon={<Tool />} sujet="Hermès / Ollama">pas encore prêt pour remplacer Claude au quotidien</Limite>
-      <Limite icon={<Chart />} sujet="Note d'activité">restée à l'état de test, rien de déployé pour l'instant</Limite>
-      <Limite icon={<Warn />} sujet="Segmentation Panoramax">testée, abandonnée</Limite>
+      <Steps>
+        <Step><Limite icon={<Tool />} sujet="Hermès / Ollama">pas encore prêt pour remplacer Claude au quotidien</Limite></Step>
+        <Step><Limite icon={<Chart />} sujet="Note d'activité">restée à l'état de test, rien de déployé pour l'instant</Limite></Step>
+        <Step><Limite icon={<Warn />} sujet="Segmentation + tag dans Panoramax">testée, abandonnée</Limite></Step>
+      </Steps>
     </div>
+    <Steps>
+    <Step>
     <div style={{ marginTop: 30, background: DEEP_800, color: '#FFFFFF', borderRadius: 'var(--osd-radius)', padding: '34px 44px', fontSize: 36, fontStyle: 'italic', translate: '0px 45.56px', textAlign: 'center' }}>
       L'IA est un outil, pas une solution miracle.
     </div>
+    </Step>
+    </Steps>
   </div>
 );
 
@@ -784,15 +796,21 @@ const Organisation: Page = () => (
   <div style={{ ...content, justifyContent: 'center' }}>
     <Header eyebrow="ORGANISATION" title="Comment on s'organise maintenant" />
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 50 }}>
-      <Limite icon={<Tool />} sujet="Un outil d'équipe">Claude Team : le chat pour les 3, Claude Code quand un vrai besoin de script arrive</Limite>
-      <Limite icon={<Chart />} sujet="Un contexte commun">un dépôt partagé que lisent tous nos assistants : service, stack, règles</Limite>
-      <Limite icon={<Warn />} sujet="Des règles sur les données">le nominatif ne part jamais dans le cloud, il reste en local (Ollama)</Limite>
-      <Limite icon={<Chart />} sujet="Un forfait, pas d'API">aucune dépense à la consommation</Limite>
-      <Limite icon={<Tool />} sujet="Un humain a le dernier mot">le code décide, le modèle reformule, on relit</Limite>
+      <Steps>
+        <Step><Limite icon={<Tool />} sujet="Un outil d'équipe">Claude Team : le chat pour les 3, Claude Code quand un vrai besoin de script arrive</Limite></Step>
+        <Step><Limite icon={<Chart />} sujet="Un contexte commun">un dépôt partagé que lisent tous nos assistants : service, stack, règles</Limite></Step>
+        <Step><Limite icon={<Warn />} sujet="Des règles sur les données">le nominatif ne part jamais dans le cloud, il reste en local (Ollama)</Limite></Step>
+        <Step><Limite icon={<Chart />} sujet="Un forfait, pas d'API">aucune dépense à la consommation</Limite></Step>
+        <Step><Limite icon={<Tool />} sujet="Un humain a le dernier mot">le code décide, le modèle reformule, on relit</Limite></Step>
+      </Steps>
     </div>
+    <Steps>
+    <Step>
     <div style={{ marginTop: 30, background: DEEP_800, color: '#FFFFFF', borderRadius: 'var(--osd-radius)', padding: '34px 44px', fontSize: 36, fontStyle: 'italic', textAlign: 'center' }}>
       Le contexte est à nous, l'outil reste remplaçable.
     </div>
+    </Step>
+    </Steps>
   </div>
 );
 
@@ -804,39 +822,61 @@ const Ligne_ = ({ invite, children }: { invite?: string; children: ReactNode }) 
   </div>
 );
 
+/** Largeur de la colonne des étapes et écart avec le terminal (partagés par les lignes et le fond). */
+const Q_GAUCHE = 760;
+const Q_ECART = 70;
+
+/**
+ * Une ligne de la page « Au quotidien » : l'étape à gauche, ses lignes de terminal à droite.
+ * Les deux sont dans le même bloc pour apparaître au même clic.
+ */
+const LigneQ = ({ gauche, children, pad = '10px 34px' }: { gauche?: ReactNode; children: ReactNode; pad?: string }) => (
+  // position relative : passe au-dessus du fond du terminal (posé en absolu)
+  <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: `${Q_GAUCHE}px 1fr`, columnGap: Q_ECART, alignItems: 'center' }}>
+    <div>{gauche}</div>
+    <div style={{ padding: pad, fontFamily: MONO, fontSize: 23, lineHeight: 1.6 }}>{children}</div>
+  </div>
+);
+
 const Quotidien: Page = () => (
   <div style={content}>
     <Header eyebrow="AU QUOTIDIEN" title="Concrètement : un terminal et un assistant qui connaît le service" />
-    <div style={{ flex: 1, display: 'flex', gap: 70, marginTop: 50, minHeight: 0 }}>
-      <div style={{ width: 760, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 34 }}>
-        <Field label="1. JE DÉCRIS">En français, dans le terminal, comme à un collègue</Field>
-        <Field label="2. IL LIT LE CONTEXTE">Le dépôt commun : service, stack, règles sur les données</Field>
-        <Field label="3. IL PROPOSE, J'ESSAIE">Il écrit le code ou le texte, je teste dans le vrai outil</Field>
-        <Field label="4. JE VALIDE">Rien n'est publié ni écrit en base sans moi</Field>
-      </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28 }}>
-        {/* ponytail: terminal factice en HTML, sert aussi de plan B si pas de réseau pour la démo */}
-        <div style={{ background: DEEP_800, borderRadius: 'var(--osd-radius)', padding: '26px 34px', fontFamily: MONO, fontSize: 23, lineHeight: 1.6 }}>
-          <div style={{ display: 'flex', gap: 10, marginBottom: 18 }}>
-            {[ROUGE, '#FFDE12', SAGE].map((c) => <span key={c} style={{ width: 16, height: 16, borderRadius: 8, background: c }} />)}
-          </div>
-          <Ligne_ invite="PS>">claude</Ligne_>
+    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 28, marginTop: 50, minHeight: 0 }}>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {/* ponytail: terminal factice en HTML, sert aussi de plan B si pas de réseau pour la démo.
+            Fond posé en absolu sur toute la hauteur : la fenêtre est là dès l'ouverture, le texte s'y remplit au clic. */}
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: Q_GAUCHE + Q_ECART, right: 0, background: DEEP_800, borderRadius: 'var(--osd-radius)' }} />
+        <Steps>
+          <LigneQ pad="26px 34px 4px">
+            <div style={{ display: 'flex', gap: 10, marginBottom: 18 }}>
+              {[ROUGE, '#FFDE12', SAGE].map((c) => <span key={c} style={{ width: 16, height: 16, borderRadius: 8, background: c }} />)}
+            </div>
+            <Ligne_ invite="PS>">claude</Ligne_>
+          </LigneQ>
           {/* échange réel : issue #29 du module DFI de VCA → PR #30 (04/11/2026) */}
-          <Ligne_ invite="›">traite l'issue #29 du module DFI</Ligne_>
-          <Ligne_>● lit les règles de contribution des modules GEO</Ligne_>
-          <Ligne_>● crée une branche, modifie le module</Ligne_>
-          <Ligne_ invite="›">testé dans GEO 4.3.2, ça marche</Ligne_>
-          <Ligne_ invite="›">garde aussi les contours sur la carte</Ligne_>
-          <Ligne_>● ajuste, je reteste</Ligne_>
-          <Ligne_>✓ PR #30 ouverte chez Vienne Condrieu</Ligne_>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-          <Badge color="#03728B" bg="#E6F9FD">Terminal + Claude Code</Badge>
-          <Badge color="#03728B" bg="#E6F9FD">Skills maison</Badge>
-          <Badge color={VERT} bg="#E8F5EC">Git / GitHub</Badge>
-          <Badge color={VERT} bg="#E8F5EC">Notion</Badge>
-          <Badge color={VERT} bg="#E8F5EC">Ollama local</Badge>
-        </div>
+          <Step><LigneQ gauche={<Field label="1. JE DÉCRIS">En français, dans le terminal, comme à un collègue</Field>}>
+            <Ligne_ invite="›">traite l'issue #29 du module DFI</Ligne_>
+          </LigneQ></Step>
+          <Step><LigneQ gauche={<Field label="2. IL LIT LE CONTEXTE">Le dépôt commun : service, stack, règles sur les données</Field>}>
+            <Ligne_>● lit les règles de contribution des modules GEO</Ligne_>
+          </LigneQ></Step>
+          <Step><LigneQ gauche={<Field label="3. IL PROPOSE, J'ESSAIE">Il écrit le code ou le texte, je teste dans le vrai outil</Field>}>
+            <Ligne_>● crée une branche, modifie le module</Ligne_>
+            <Ligne_ invite="›">testé dans GEO 4.3.2, ça marche</Ligne_>
+            <Ligne_ invite="›">garde aussi les contours sur la carte</Ligne_>
+            <Ligne_>● ajuste, je reteste</Ligne_>
+          </LigneQ></Step>
+          <Step><LigneQ pad="10px 34px 26px" gauche={<Field label="4. JE VALIDE">Rien n'est publié ni écrit en base sans moi</Field>}>
+            <Ligne_>✓ PR #30 ouverte chez Vienne Condrieu</Ligne_>
+          </LigneQ></Step>
+        </Steps>
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginLeft: Q_GAUCHE + Q_ECART }}>
+        <Badge color="#03728B" bg="#E6F9FD">Terminal + Claude Code</Badge>
+        <Badge color="#03728B" bg="#E6F9FD">Skills maison</Badge>
+        <Badge color={VERT} bg="#E8F5EC">Git / GitHub</Badge>
+        <Badge color={VERT} bg="#E8F5EC">Notion</Badge>
+        <Badge color={VERT} bg="#E8F5EC">Ollama local</Badge>
       </div>
     </div>
   </div>
@@ -846,13 +886,17 @@ const Quotidien: Page = () => (
 const Questions: Page = () => (
   <div style={{ ...content, justifyContent: 'center' }}>
     <Header eyebrow="QUESTIONS OUVERTES" title="Ce qui nous pose question" />
+    {/* Chaque bloc apparaît au clic, la certitude en dernier. */}
+    {/* Steps ne compte que ses enfants directs : il vit dans la colonne, bandeau compris. */}
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 50 }}>
-      <Limite icon={<Chart />} sujet="Quels outils en 2027 ?">souverains, performants, ou un mélange des deux</Limite>
-      <Limite icon={<Chart />} sujet="Où vit la mémoire ?">entre les outils, nos notes et le dépôt partagé</Limite>
-      <Limite icon={<Chart />} sujet="L'IA dans notre base ?">en lecture seule, en liste blanche, encore en conception</Limite>
-      <Limite icon={<Warn />} sujet="Quel coût environnemental ?">énergie et eau des centres de données mal connues, et le local consomme aussi</Limite>
+      <Steps>
+      <Step><Limite icon={<Chart />} sujet="Quels outils en 2027 ?">souverains, performants, ou un mélange des deux</Limite></Step>
+      <Step><Limite icon={<Chart />} sujet="Où vit la mémoire ?">entre les outils, nos notes et le dépôt partagé</Limite></Step>
+      <Step><Limite icon={<Chart />} sujet="L'IA dans notre base ?">en lecture seule, en liste blanche, encore en conception</Limite></Step>
+      <Step><Limite icon={<Warn />} sujet="Quel coût environnemental ?">énergie et eau des centres de données mal connues, et le local consomme aussi</Limite></Step>
+      <Step><div style={{ marginTop: 10, background: DEEP_800, color: '#FFFFFF', borderRadius: 'var(--osd-radius)', padding: '34px 44px', fontSize: 36, fontStyle: 'italic', textAlign: 'center' }}>Une seule certitude : rester réversibles</div></Step>
+      </Steps>
     </div>
-    <div style={{ marginTop: 30, background: DEEP_800, color: '#FFFFFF', borderRadius: 'var(--osd-radius)', padding: '34px 44px', fontSize: 36, fontStyle: 'italic', textAlign: 'center' }}>Une seule certitude : rester réversibles</div>
   </div>
 );
 
@@ -924,6 +968,7 @@ Autres exemples du même type : l'étude du BP 2027, la note d'intention du SyMO
 Sans l'IA: je faisais des analyses de ce type mais avec çame permet d'avoir un format similaire d'un trimestre à l'autre et de le rendre partageable facilement`,
   `« On capitalise sur nos échecs, c'est comme ça qu'on progresse. »
 Hermès + Ollama : l'IA générative 100 % locale, testée, pas encore prête pour le quotidien.
+La note d'activité dépendra de choix à faire dans le service, même si techniquement elle est quasi ok
 Transition : « Alors, pour ne pas se perdre, on commence à s'organiser. »`,
   `Choix d'équipe de début novembre 2026.
 - Claude Team, 3 sièges au forfait : plus de comptes gratuits perso pour le travail. Claude Code pour moi d'abord, pour les collègues quand le besoin viendra.
