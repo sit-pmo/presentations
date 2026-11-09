@@ -3,10 +3,12 @@
 Les supports de présentation du service SIT, écrits avec [open-slide](https://www.npmjs.com/package/@open-slide/core) :
 une page = un composant React, rendu en 1920 × 1080.
 
-| Deck | Événement |
-| --- | --- |
-| `slides/geo17-ia/` | Rencontres Géo17, 13 novembre 2026 — usages de l'IA au SIT |
-| `slides/gt-drone/` | GT Drone n°1 CCIO, 13 octobre 2026 — réglementation & pilotage |
+**Voir en ligne : https://sit-pmo.github.io/presentations/**
+
+| Deck | Événement | En ligne |
+| --- | --- | --- |
+| `slides/geo17-ia/` | Rencontres Géo17, 13 novembre 2026 — usages de l'IA au SIT | [ouvrir](https://sit-pmo.github.io/presentations/s/geo17-ia) |
+| `slides/gt-drone/` | GT Drone n°1 CCIO, 13 octobre 2026 — réglementation & pilotage | [ouvrir](https://sit-pmo.github.io/presentations/s/gt-drone) |
 
 ## Lancer
 
@@ -15,7 +17,7 @@ npm install
 npm run dev -- --port 5181
 ```
 
-Puis ouvrir http://localhost:5180/. `F` lance le mode présentation, les notes orateur sont dans la vue présentateur.
+Puis ouvrir http://localhost:5181/presentations/. `F` lance le mode présentation, les notes orateur sont dans la vue présentateur.
 
 ## Construire une version statique
 
