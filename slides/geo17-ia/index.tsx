@@ -7,7 +7,6 @@ import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
 import { Step, Steps } from '@open-slide/core';
 import phare from './assets/phare-chassiron.jpg';
 import grille from './assets/grille-cover.png';
-import logoPmo from './assets/logo-pmo.png';
 import marais from './assets/marais-brouage.jpg';
 import plantnetGeo from './assets/plantnet-geo-panoramax.png';
 import gifPanoramax from './assets/geo-panoramax.gif';
@@ -919,7 +918,8 @@ const Merci: Page = () => (
     <div style={{ fontFamily: UI, fontSize: 28, marginTop: 14, color: GRIS_CLAIR, lineHeight: 1.5 }}>
       a.chaumet@marennes-oleron.com
     </div>
-    <img src={logoPmo} style={{ width: 130, marginTop: 70 }} />
+    {/* même logo animé PMO ↔ IA que la couverture */}
+    <div style={{ marginTop: 70 }}><LogoAnime width={110} /></div>
   </div>
 );
 
